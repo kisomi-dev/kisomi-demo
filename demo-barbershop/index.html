@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BARBER — мужские стрижки и борода в Минске</title>
+<meta name="description" content="Мужские стрижки, оформление бороды, бритьё. Онлайн-запись за 30 секунд. Минск.">
+<meta name="theme-color" content="#0e0e10">
+<!--
+  ДЕМО-ШАБЛОН ЛЕНДИНГА ДЛЯ БАРБЕРШОПА
+  Меняется всё в одном месте — ищи комментарии "МЕНЯЙ:".
+  Форма шлёт заявки на /api/lead (см. server.mjs) и дублирует в Telegram.
+  Открывается просто двойным кликом даже без сервера — тогда форма предложит написать в Telegram.
+-->
+<style>
+  :root{
+    --bg:#0e0e10;
+    --bg-2:#141417;
+    --panel:#1a1a1e;
+    --line:#2a2a30;
+    --text:#f4f1ea;
+    --muted:#9c988f;
+    --gold:#d3a54a;
+    --gold-soft:#e9c680;
+    --green:#4ba97b;
+    --r:14px;
+    --maxw:1120px;
+    --sans:"Inter","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg);color:var(--text);font-family:var(--sans);
+    font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  button,input,select,textarea{font:inherit;color:inherit}
+  ::selection{background:var(--gold);color:#141414}
+
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  .eyebrow{
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--gold);font-weight:600;
+  }
+  h1,h2,h3{line-height:1.08;letter-spacing:-.02em;font-weight:800}
+  h2{font-size:clamp(28px,3.6vw,44px)}
+  .lead{color:var(--muted);font-size:clamp(15px,1.5vw,18px)}
+  .section{padding:clamp(56px,7vw,96px) 0;border-top:1px solid var(--line)}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:38px;flex-wrap:wrap}
+  .section-head p{max-width:420px;color:var(--muted);font-size:15px}
+
+  /* ---------- кнопки ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    padding:14px 24px;border-radius:999px;border:1px solid transparent;
+    font-weight:700;font-size:15px;cursor:pointer;transition:.18s ease;white-space:nowrap;
+  }
+  .btn-gold{background:var(--gold);color:#161410}
+  .btn-gold:hover{background:var(--gold-soft);transform:translateY(-1px)}
+  .btn-ghost{border-color:var(--line);background:transparent;color:var(--text)}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold-soft)}
+  .btn-block{width:100%}
+
+  /* ---------- шапка ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(14,14,16,.82);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:20px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.16em;font-size:15px}
+  .logo-mark{
+    width:30px;height:30px;border:1.5px solid var(--gold);border-radius:50%;
+    display:grid;place-items:center;color:var(--gold);font-size:13px;transform:rotate(-12deg);
+  }
+  .nav-links{display:flex;gap:28px;font-size:14px;color:var(--muted)}
+  .nav-links a:hover{color:var(--text)}
+  .nav .btn{padding:10px 20px;font-size:14px}
+  @media (max-width:860px){.nav-links{display:none}}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;padding:clamp(48px,7vw,86px) 0 clamp(40px,5vw,64px);overflow:hidden}
+  .hero::before{
+    content:"";position:absolute;inset:-30% -10% auto auto;width:60vw;height:60vw;max-width:720px;max-height:720px;
+    background:radial-gradient(circle at 50% 50%,rgba(211,165,74,.16),transparent 62%);
+    pointer-events:none;
+  }
+  .hero-grid{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,4vw,60px);align-items:center}
+  .hero h1{font-size:clamp(38px,6vw,68px);margin:16px 0 20px}
+  .hero h1 em{font-style:normal;color:var(--gold)}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+  .hero-facts{display:flex;gap:26px;margin-top:34px;flex-wrap:wrap}
+  .fact strong{display:block;font-size:22px;letter-spacing:-.02em}
+  .fact span{font-size:13px;color:var(--muted)}
+
+  .hero-card{
+    background:linear-gradient(160deg,#1d1d22,#141417);
+    border:1px solid var(--line);border-radius:22px;padding:26px;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,.9);
+  }
+  .hero-card h3{font-size:17px;margin-bottom:4px}
+  .hero-card .hint{font-size:13px;color:var(--muted);margin-bottom:20px}
+  .slot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .slot{
+    border:1px solid var(--line);background:#101013;border-radius:10px;
+    padding:11px 6px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;
+  }
+  .slot span{display:block;font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.06em}
+  .slot:hover{border-color:var(--gold)}
+  .slot.active{background:var(--gold);color:#161410;border-color:var(--gold)}
+  .slot.active span{color:#4a3d1e}
+  .slot.busy{opacity:.32;cursor:not-allowed;text-decoration:line-through}
+  @media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
+
+  /* ---------- бегущая строка ---------- */
+  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);overflow:hidden}
+  .strip-track{display:flex;gap:44px;padding:14px 0;white-space:nowrap;animation:slide 26s linear infinite;width:max-content}
+  .strip span{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .strip b{color:var(--gold)}
+  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.strip-track{animation:none}}
+
+  /* ---------- услуги ---------- */
+  .services{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media (max-width:900px){.services{grid-template-columns:1fr 1fr}}
+  @media (max-width:600px){.services{grid-template-columns:1fr}}
+  .service{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+    padding:24px;display:flex;flex-direction:column;gap:8px;transition:.2s;
+  }
+  .service:hover{border-color:#3a3a44;transform:translateY(-2px)}
+  .service .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .service h3{font-size:18px}
+  .price{color:var(--gold);font-weight:800;font-size:17px;white-space:nowrap}
+  .service p{font-size:14px;color:var(--muted)}
+  .service .time{font-size:12px;color:#6f6c66;margin-top:auto;padding-top:10px}
+
+  /* ---------- мастера ---------- */
+  .masters{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media (max-width:860px){.masters{grid-template-columns:1fr}}
+  .master{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--panel)}
+  .master-photo{
+    height:210px;display:grid;place-items:center;
+    background:radial-gradient(circle at 50% 30%,#2b2b33,#141417);
+    font-size:52px;font-weight:800;color:#3d3d46;letter-spacing:-.03em;
+  }
+  .master-body{padding:18px 20px 20px}
+  .master-body h3{font-size:17px}
+  .master-body .role{color:var(--gold);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+  .master-body p{font-size:14px;color:var(--muted)}
+
+  /* ---------- отзывы ---------- */
+  .reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media (max-width:860px){.reviews{grid-template-columns:1fr}}
+  .review{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+  .stars{color:var(--gold);letter-spacing:3px;font-size:13px;margin-bottom:12px}
+  .review p{font-size:15px;color:#dedad2}
+  .review footer{margin-top:16px;font-size:13px;color:var(--muted)}
+
+  /* ---------- запись ---------- */
+  .book{display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(24px,4vw,56px);align-items:start}
+  @media (max-width:900px){.book{grid-template-columns:1fr}}
+  .book-info h2{margin:12px 0 18px}
+  .book-points{list-style:none;display:grid;gap:14px;margin-top:26px}
+  .book-points li{display:flex;gap:12px;font-size:15px;color:var(--muted)}
+  .book-points b{color:var(--text);font-weight:600}
+  .dot{width:22px;height:22px;border-radius:50%;border:1px solid var(--gold);color:var(--gold);display:grid;place-items:center;font-size:12px;flex:0 0 22px;margin-top:1px}
+
+  form{
+    background:linear-gradient(165deg,#1c1c21,#131316);
+    border:1px solid var(--line);border-radius:20px;padding:clamp(20px,3vw,30px);
+    display:grid;gap:14px;
+  }
+  .field{display:grid;gap:6px}
+  .field label{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .field input,.field select,.field textarea{
+    width:100%;background:#0f0f12;border:1px solid var(--line);border-radius:10px;
+    padding:13px 14px;outline:none;transition:.15s;font-size:15px;
+  }
+  .field textarea{resize:vertical;min-height:74px}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);background:#121215}
+  .field input::placeholder{color:#5f5c57}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:520px){.row2{grid-template-columns:1fr}}
+  .form-note{font-size:12px;color:#6f6c66;line-height:1.5}
+  .form-msg{
+    display:none;border-radius:12px;padding:14px 16px;font-size:14px;line-height:1.5;
+  }
+  .form-msg.ok{display:block;background:rgba(75,169,123,.12);border:1px solid rgba(75,169,123,.4);color:#a6e3c5}
+  .form-msg.err{display:block;background:rgba(200,80,80,.1);border:1px solid rgba(200,80,80,.35);color:#e6a9a9}
+
+  /* ---------- контакты ---------- */
+  .contacts{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:34px}
+  @media (max-width:860px){.contacts{grid-template-columns:1fr 1fr}}
+  @media (max-width:520px){.contacts{grid-template-columns:1fr}}
+  .contact{border:1px solid var(--line);border-radius:var(--r);padding:20px;background:var(--panel)}
+  .contact .k{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .contact .v{font-size:16px;font-weight:600;word-break:break-word}
+  .contact a.v:hover{color:var(--gold)}
+
+  /* ---------- подвал ---------- */
+  footer.site{border-top:1px solid var(--line);padding:34px 0;color:var(--muted);font-size:13px}
+  .foot{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
+  .foot a:hover{color:var(--text)}
+
+  /* ---------- плавающая кнопка ---------- */
+  .fab{
+    position:fixed;right:18px;bottom:18px;z-index:60;
+    padding:14px 22px;border-radius:999px;background:var(--gold);color:#161410;
+    font-weight:800;font-size:14px;box-shadow:0 14px 34px -8px rgba(211,165,74,.6);
+    display:none;
+  }
+  @media (max-width:860px){.fab{display:block}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="logo"><span class="logo-mark">B</span>BARBER</a>
+    <nav class="nav-links">
+      <a href="#services">Услуги</a>
+      <a href="#masters">Мастера</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <!-- МЕНЯЙ: ссылка на запись -->
+    <a href="#book" class="btn btn-gold">Записаться</a>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Минск · 7 лет на районе</p>
+      <!-- МЕНЯЙ: главный заголовок -->
+      <h1>Стрижка, после которой<br>не надо <em>объяснять</em>,<br>что ты хотел</h1>
+      <p class="lead">Мужские стрижки, оформление бороды и бритьё. Без записи по телефону, без ожидания в зале: выбираешь время — приходишь — уходишь через 45 минут.</p>
+      <div class="hero-actions">
+        <a href="#book" class="btn btn-gold">Записаться онлайн</a>
+        <a href="#services" class="btn btn-ghost">Услуги и цены</a>
+      </div>
+      <div class="hero-facts">
+        <div class="fact"><strong>4,9</strong><span>371 отзыв на Картах</span></div>
+        <div class="fact"><strong>45 мин</strong><span>средняя стрижка</span></div>
+        <div class="fact"><strong>0 мин</strong><span>ожидания по записи</span></div>
+      </div>
+    </div>
+
+    <!-- МЕНЯЙ: быстрая запись на сегодня -->
+    <div class="hero-card">
+      <h3>Свободно сегодня</h3>
+      <p class="hint">Выбери время — откроется форма записи</p>
+      <div class="slot-grid" id="quickSlots">
+        <button class="slot" data-time="10:30">10:30<span>свободно</span></button>
+        <button class="slot busy" data-time="12:00">12:00<span>занято</span></button>
+        <button class="slot" data-time="13:30">13:30<span>свободно</span></button>
+        <button class="slot" data-time="15:00">15:00<span>свободно</span></button>
+        <button class="slot busy" data-time="16:30">16:30<span>занято</span></button>
+        <button class="slot" data-time="18:00">18:00<span>свободно</span></button>
+      </div>
+      <p class="hint" style="margin:18px 0 0">Или напиши в Telegram — ответим за 5 минут.</p>
+    </div>
+  </div>
+</section>
+
+<div class="strip" aria-hidden="true">
+  <div class="strip-track">
+    <span>Мужские стрижки</span><span><b>·</b></span>
+    <span>Оформление бороды</span><span><b>·</b></span>
+    <span>Королевское бритьё</span><span><b>·</b></span>
+    <span>Камуфляж седины</span><span><b>·</b></span>
+    <span>Детская стрижка</span><span><b>·</b></span>
+    <span>Мужские стрижки</span><span><b>·</b></span>
+    <span>Оформление бороды</span><span><b>·</b></span>
+    <span>Королевское бритьё</span><span><b>·</b></span>
+    <span>Камуфляж седины</span><span><b>·</b></span>
+    <span>Детская стрижка</span><span><b>·</b></span>
+  </div>
+</div>
+
+<!-- ================= УСЛУГИ ================= -->
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Услуги и цены</p>
+        <h2>Без сюрпризов в конце</h2>
+      </div>
+      <p>Цена в прайсе — это цена, которую ты платишь. Мастер не предложит «ещё немного подровнять» за доплату.</p>
+    </div>
+
+    <!-- МЕНЯЙ: услуги и цены -->
+    <div class="services">
+      <article class="service">
+        <div class="top"><h3>Мужская стрижка</h3><span class="price">50 BYN</span></div>
+        <p>Консультация, мытьё, стрижка машинкой и ножницами, укладка.</p>
+        <span class="time">45 минут</span>
+      </article>
+      <article class="service">
+        <div class="top"><h3>Стрижка + борода</h3><span class="price">75 BYN</span></div>
+        <p>Полный комплекс: стрижка, форма бороды, горячее полотенце, уход.</p>
+        <span class="time">70 минут</span>
+      </article>
+      <article class="service">
+        <div class="top"><h3>Оформление бороды</h3><span class="price">35 BYN</span></div>
+        <p>Контур, длина, триммер и ножницы, масло для бороды.</p>
+        <span class="time">30 минут</span>
+      </article>
+      <article class="service">
+        <div class="top"><h3>Королевское бритьё</h3><span class="price">55 BYN</span></div>
+        <p>Опасная бритва, два прохода, горячее и холодное полотенце.</p>
+        <span class="time">40 минут</span>
+      </article>
+      <article class="service">
+        <div class="top"><h3>Камуфляж седины</h3><span class="price">40 BYN</span></div>
+        <p>Тонирование без эффекта «покрасился», держится 3–4 недели.</p>
+        <span class="time">35 минут</span>
+      </article>
+      <article class="service">
+        <div class="top"><h3>Детская стрижка</h3><span class="price">35 BYN</span></div>
+        <p>До 12 лет. Без спешки, с мультиком и без слёз.</p>
+        <span class="time">30 минут</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= МАСТЕРА ================= -->
+<section class="section" id="masters">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Мастера</p>
+        <h2>Записывайся к человеку,<br>а не «в барбершоп»</h2>
+      </div>
+      <p>Каждый мастер ведёт свою запись. Если ты ходил к Диме — ты попадёшь к Диме.</p>
+    </div>
+
+    <!-- МЕНЯЙ: мастера -->
+    <div class="masters">
+      <article class="master">
+        <div class="master-photo">ДМ</div>
+        <div class="master-body">
+          <p class="role">Топ-барбер · 8 лет</p>
+          <h3>Дмитрий</h3>
+          <p>Классика, фейд, работа с бородой. Любит короткие формы и не любит, когда просят «как у него, но подлиннее».</p>
+        </div>
+      </article>
+      <article class="master">
+        <div class="master-photo">АК</div>
+        <div class="master-body">
+          <p class="role">Барбер · 4 года</p>
+          <h3>Артём</h3>
+          <p>Текстурные стрижки, длинные волосы, укладка. Может собрать форму, которую ты сам не мог описать.</p>
+        </div>
+      </article>
+      <article class="master">
+        <div class="master-photo">СЛ</div>
+        <div class="master-body">
+          <p class="role">Барбер · 3 года</p>
+          <h3>Слава</h3>
+          <p>Бритьё опасной бритвой, камуфляж седины, детские стрижки. Терпеливый — проверено на детях.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ОТЗЫВЫ ================= -->
+<section class="section" id="reviews">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Отзывы</p>
+        <h2>Что пишут после визита</h2>
+      </div>
+      <p>Реальные отзывы с Яндекс Карт. На каждый отвечаем — и на хороший, и на плохой.</p>
+    </div>
+
+    <!-- МЕНЯЙ: отзывы -->
+    <div class="reviews">
+      <article class="review">
+        <div class="stars">★★★★★</div>
+        <p>«Первый раз за много лет вышел и не думал, что надо было сказать иначе. Показал фото — сделали точно так же, только лучше».</p>
+        <footer>Андрей, стрижка у Дмитрия</footer>
+      </article>
+      <article class="review">
+        <div class="stars">★★★★★</div>
+        <p>«Записался онлайн за 20 минут до визита, пришёл — и сразу сел в кресло. Никакого "подождите, мастер освободится"».</p>
+        <footer>Кирилл, стрижка + борода</footer>
+      </article>
+      <article class="review">
+        <div class="stars">★★★★★</div>
+        <p>«Хожу с сыном. Раньше это был квест со слезами, сейчас он сам просит "к дяде Славе"».</p>
+        <footer>Максим, детская стрижка</footer>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ЗАПИСЬ ================= -->
+<section class="section" id="book">
+  <div class="wrap book">
+    <div class="book-info">
+      <p class="eyebrow">Онлайн-запись</p>
+      <h2>Запись за 30 секунд</h2>
+      <p class="lead">Оставь имя и телефон — мастер подтвердит время в Telegram или звонком. Если планы поменялись, просто напиши, перенесём без вопросов.</p>
+      <ul class="book-points">
+        <li><span class="dot">1</span><span><b>Выбираешь услугу и мастера.</b> Видно только реально свободное время.</span></li>
+        <li><span class="dot">2</span><span><b>Оставляешь телефон.</b> Заявка сразу приходит администратору в Telegram.</span></li>
+        <li><span class="dot">3</span><span><b>Получаешь подтверждение.</b> За 2 часа до визита — напоминание.</span></li>
+      </ul>
+    </div>
+
+    <!-- МЕНЯЙ: поля формы и услуги в select -->
+    <form id="bookForm" novalidate>
+      <div class="row2">
+        <div class="field">
+          <label for="name">Имя</label>
+          <input id="name" name="name" type="text" placeholder="Как к тебе обращаться" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="phone">Телефон</label>
+          <input id="phone" name="phone" type="tel" placeholder="+375 (29) 000-00-00" autocomplete="tel" required>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label for="service">Услуга</label>
+          <select id="service" name="service" required>
+            <option value="">Выбери услугу</option>
+            <option>Мужская стрижка — 50 BYN</option>
+            <option>Стрижка + борода — 75 BYN</option>
+            <option>Оформление бороды — 35 BYN</option>
+            <option>Королевское бритьё — 55 BYN</option>
+            <option>Камуфляж седины — 40 BYN</option>
+            <option>Детская стрижка — 35 BYN</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="master">Мастер</label>
+          <select id="master" name="master">
+            <option>Любой свободный</option>
+            <option>Дмитрий</option>
+            <option>Артём</option>
+            <option>Слава</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label for="date">Дата</label>
+          <input id="date" name="date" type="date" required>
+        </div>
+        <div class="field">
+          <label for="time">Время</label>
+          <select id="time" name="time" required>
+            <option value="">Выбери время</option>
+            <option>10:00</option><option>10:30</option>
+            <option>11:00</option><option>11:30</option>
+            <option>12:00</option><option>12:30</option>
+            <option>13:00</option><option>13:30</option>
+            <option>14:00</option><option>14:30</option>
+            <option>15:00</option><option>15:30</option>
+            <option>16:00</option><option>16:30</option>
+            <option>17:00</option><option>17:30</option>
+            <option>18:00</option><option>18:30</option>
+            <option>19:00</option><option>19:30</option>
+            <option>20:00</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="comment">Комментарий (необязательно)</label>
+        <textarea id="comment" name="comment" placeholder="Например: «хочу короткий фейд, борода — только контур»"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-gold btn-block" id="submitBtn">Записаться</button>
+      <p class="form-note">Нажимая «Записаться», ты соглашаешься на обработку данных для записи. Спама не будет.</p>
+      <div class="form-msg" id="formMsg" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<!-- ================= КОНТАКТЫ ================= -->
+<section class="section" id="contacts">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Контакты</p>
+        <h2>Где нас найти</h2>
+      </div>
+      <p>Вход со двора, второй этаж. Если не нашёл — позвони, выйдем встретить.</p>
+    </div>
+
+    <!-- МЕНЯЙ: контакты -->
+    <div class="contacts">
+      <div class="contact">
+        <div class="k">Адрес</div>
+        <div class="v">ул. Кирилла Туровского, 6<br>Минск</div>
+      </div>
+      <div class="contact">
+        <div class="k">Телефон</div>
+        <a class="v" href="tel:+375445709525">+375 44 570-95-25</a>
+      </div>
+      <div class="contact">
+        <div class="k">Telegram</div>
+        <a class="v" href="https://t.me/grove_minsk" target="_blank" rel="noopener">@grove_minsk</a>
+      </div>
+      <div class="contact">
+        <div class="k">Часы работы</div>
+        <div class="v">Пн–Вс<br>10:00 — 21:00</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap foot">
+    <div>© <span id="year"></span> BARBER. Минск.</div>
+    <div>Демо-лендинг · <a href="https://t.me/kisomi_dev_work" target="_blank" rel="noopener">сделано Kisomi</a></div>
+  </div>
+</footer>
+
+<a href="#book" class="fab">Записаться</a>
+
+<script>
+(function () {
+  'use strict';
+
+  // ---------- год в подвале ----------
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ---------- дата по умолчанию: сегодня, минимум — сегодня ----------
+  var dateInput = document.getElementById('date');
+  var today = new Date();
+  var iso = function (d) {
+    var m = String(d.getMonth() + 1).padStart(2, '0');
+    var day = String(d.getDate()).padStart(2, '0');
+    return d.getFullYear() + '-' + m + '-' + day;
+  };
+  dateInput.min = iso(today);
+  dateInput.value = iso(today);
+
+  // ---------- быстрые слоты в hero ----------
+  var quick = document.getElementById('quickSlots');
+  quick.addEventListener('click', function (e) {
+    var btn = e.target.closest('.slot');
+    if (!btn || btn.classList.contains('busy')) return;
+    document.querySelectorAll('.slot.active').forEach(function (s) { s.classList.remove('active'); });
+    btn.classList.add('active');
+
+    var t = btn.dataset.time;
+    var sel = document.getElementById('time');
+    // если такого времени нет в списке — добавим
+    if (![].some.call(sel.options, function (o) { return o.value === t; })) {
+      var opt = new Option(t, t);
+      sel.add(opt);
+    }
+    sel.value = t;
+    document.getElementById('book').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  // ---------- маска телефона (мягкая, под BY/RU) ----------
+  var phone = document.getElementById('phone');
+  phone.addEventListener('input', function () {
+    var digits = phone.value.replace(/\D/g, '');
+    if (digits.length === 0) { phone.value = ''; return; }
+    if (digits[0] === '3' && digits[1] === '7' && digits[2] === '5') {
+      var d = digits.slice(3, 12);
+      var out = '+375';
+      if (d.length > 0) out += ' (' + d.slice(0, 2);
+      if (d.length >= 2) out += ') ' + d.slice(2, 5);
+      if (d.length >= 5) out += '-' + d.slice(5, 7);
+      if (d.length >= 7) out += '-' + d.slice(7, 9);
+      phone.value = out;
+    }
+  });
+
+  // ---------- отправка формы ----------
+  var form = document.getElementById('bookForm');
+  var msg = document.getElementById('formMsg');
+  var submitBtn = document.getElementById('submitBtn');
+
+  function showMsg(text, kind) {
+    msg.className = 'form-msg ' + kind;
+    msg.textContent = text;
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    // ВАЖНО: обращаемся через form.elements — у формы есть свои свойства
+    // name/method/action, и form.name вернёт строку, а не поле ввода.
+    var el = form.elements;
+    var data = {
+      name: el.name.value.trim(),
+      phone: el.phone.value.trim(),
+      service: el.service.value,
+      master: el.master.value,
+      date: el.date.value,
+      time: el.time.value,
+      comment: el.comment.value.trim(),
+      page: location.href,
+      ts: new Date().toISOString()
+    };
+
+    if (data.name.length < 2) { showMsg('Напиши имя — хотя бы как к тебе обращаться.', 'err'); el.name.focus(); return; }
+    if (data.phone.replace(/\D/g, '').length < 9) { showMsg('Проверь номер телефона — не хватает цифр.', 'err'); el.phone.focus(); return; }
+    if (!data.service) { showMsg('Выбери услугу.', 'err'); el.service.focus(); return; }
+    if (!data.time) { showMsg('Выбери время.', 'err'); el.time.focus(); return; }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Отправляем…';
+
+    try {
+      var res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      showMsg('Готово! Заявка у администратора. Подтвердим время в течение 15 минут.', 'ok');
+      form.reset();
+      dateInput.value = iso(new Date());
+    } catch (err) {
+      // Открыли файлом без сервера — предлагаем Telegram
+      showMsg('Форма работает только на сервере. Напиши нам в Telegram — ответим сразу.', 'err');
+      var tg = document.createElement('a');
+      tg.href = 'https://t.me/grove_minsk';
+      tg.target = '_blank';
+      tg.rel = 'noopener';
+      tg.className = 'btn btn-gold btn-block';
+      tg.style.marginTop = '10px';
+      tg.textContent = 'Написать в Telegram';
+      msg.appendChild(document.createElement('br'));
+      msg.appendChild(tg);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Записаться';
+    }
+  });
+})();
+</script>
+</body>
+</html>

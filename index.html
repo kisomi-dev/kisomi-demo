@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Демо · Kisomi</title>
+<meta name="robots" content="noindex">
+<style>
+  :root{--paper:#faf8f4;--ink:#14120f;--muted:#7d776d;--line:#e2dcd1;--accent:#0f6b5c}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;min-height:100vh;display:grid;place-items:center;padding:32px 20px;line-height:1.55}
+  .box{width:100%;max-width:840px}
+  .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+  h1{font-size:clamp(28px,4vw,40px);letter-spacing:-.025em;margin:12px 0 10px;line-height:1.1}
+  p.lead{color:var(--muted);max-width:520px;margin-bottom:30px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media (max-width:760px){.grid{grid-template-columns:1fr}}
+  a.card{display:block;background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;transition:.2s;text-decoration:none;color:inherit}
+  a.card:hover{transform:translateY(-3px);border-color:#cfc7b8;box-shadow:0 20px 36px -28px rgba(20,18,15,.6)}
+  .card b{display:block;font-size:16px;margin-bottom:6px}
+  .card span{font-size:13.5px;color:var(--muted)}
+  .card i{display:block;font-style:normal;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;font-weight:700}
+  footer{margin-top:28px;font-size:13px;color:var(--muted)}
+  footer a{color:var(--accent)}
+</style>
+</head>
+<body>
+  <div class="box">
+    <p class="eyebrow">Kisomi · демо</p>
+    <h1>Три страницы, которые можно потрогать</h1>
+    <p class="lead">Всё открывается с телефона. Формы работают, заявки приходят в Telegram.</p>
+
+    <div class="grid">
+      <a class="card" href="portfolio/">
+        <i>Портфолио</i>
+        <b>Услуги и цены</b>
+        <span>Что делаю, сколько стоит, как работаю</span>
+      </a>
+      <a class="card" href="demo-barbershop/">
+        <i>Демо-лендинг</i>
+        <b>Барбершоп</b>
+        <span>Запись, слоты, прайс, мастера</span>
+      </a>
+      <a class="card" href="clients/dzed/">
+        <i>Персональное демо</i>
+        <b>Dzed Boro Dzed</b>
+        <span>Их прайс и фото на новой странице</span>
+      </a>
+    </div>
+
+    <footer>Егор · Kisomi · <a href="https://t.me/kisomi_dev_work" target="_blank" rel="noopener">Telegram</a></footer>
+  </div>
+</body>
+</html>
