@@ -502,7 +502,8 @@
       form.reset();
       dateInput.value = iso(new Date());
     } catch (err) {
-      show('Форма работает на сервере. Пока — запишитесь онлайн или позвоните: +375 33 632-53-25', 'err');
+      // На GitHub Pages нет сервера — ведём в их же YClients, это основной путь записи
+      show('Запишитесь онлайн по кнопке ниже — это займёт 30 секунд.', 'ok');
       var a = document.createElement('a');
       a.href = 'https://n186552.yclients.com/';
       a.target = '_blank';

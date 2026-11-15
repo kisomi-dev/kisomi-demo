@@ -630,8 +630,8 @@
       form.reset();
       dateInput.value = iso(new Date());
     } catch (err) {
-      // Открыли файлом без сервера — предлагаем Telegram
-      showMsg('Форма работает только на сервере. Напиши нам в Telegram — ответим сразу.', 'err');
+      // Открыли без сервера (GitHub Pages) — предлагаем Telegram
+      showMsg('Напишите нам в Telegram — ответим в течение 5 минут.', 'ok');
       var tg = document.createElement('a');
       tg.href = 'https://t.me/grove_minsk';
       tg.target = '_blank';
