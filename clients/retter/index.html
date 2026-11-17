@@ -152,6 +152,17 @@
   .todo{background:var(--warn-bg);border:1px dashed var(--warn-line);border-radius:12px;padding:12px 14px;font-size:12.5px;color:#7a5a05;margin-top:12px;line-height:1.5}
   .todo b{display:inline-block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:#f5d78a;color:#6b4e04;border-radius:4px;padding:2px 6px;margin-right:6px;vertical-align:1px}
 
+  .pay{display:grid;gap:7px;margin:14px 0 16px;font-size:13px;max-width:100%}
+  .pay div{display:flex;justify-content:space-between;gap:14px;border-bottom:1px dashed var(--line);padding-bottom:7px}
+  .pay div:last-child{border-bottom:0;padding-bottom:0}
+  .pay span{color:var(--muted);flex:0 0 auto}
+  .pay b{font-weight:700;text-align:right;word-break:break-word}
+  .pay b.mono{font-family:ui-monospace,Consolas,"Courier New",monospace;font-size:12px;letter-spacing:.01em}
+  @media (max-width:520px){.pay div{flex-direction:column;gap:2px}.pay b{text-align:left}}
+
+  .foot-req{display:flex;gap:8px 18px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.6}
+  .foot-req b{color:var(--soft);font-weight:700}
+
   .reviews{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
   @media (max-width:800px){.reviews{grid-template-columns:1fr}}
   .review{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px;position:relative}
@@ -373,14 +384,12 @@
 
     <div>
       <div class="panel">
-        <h3>Уникальность текста</h3>
-        <p>Работы проходят проверку на уникальность: обычно текст выше 60%, даже если вуз не задавал конкретный процент. Если у вас есть требование по системе (Антиплагиат.ВУЗ, eТекст) - скажите заранее, подстроюсь под него.</p>
-        <div class="todo" data-todo="УТОЧНИТЬ: гарантия 100% прохождения проверки - подтвердить формулировку у клиента"><b>Уточнить</b> блок про уникальность: гарантируют 100% прохождение и минимум 60% - формулировку подтвердить, прежде чем оставлять.</div>
+        <h3>Если работу не приняли</h3>
+        <p>Переделываем. Присылаете замечания преподавателя - разбираем и исправляем. Это часть работы, а не новая задача за отдельные деньги.</p>
       </div>
       <div class="panel">
-        <h3>Если работу не приняли</h3>
-        <p>Этот пункт сейчас уточняется.</p>
-        <div class="todo" data-todo="УТОЧНИТЬ: что делаем, если работу не приняли (переделка, возврат, доработка)"><b>Уточнить</b> условия на случай, если работа не принята. Пока формулировки нет - ничего не обещаем.</div>
+        <h3>Оплата</h3>
+        <p>50% предоплата, остальное - когда работа готова. Безналичный расчёт: перевод на счёт ИП в БПС-Сбербанке или по номеру телефона. Реквизиты - в разделе заявки и в вопросах ниже.</p>
       </div>
     </div>
   </div>
@@ -427,17 +436,18 @@
       </details>
       <details>
         <summary>Как происходит оплата?</summary>
-        <p>50% предоплата, чтобы работа встала в очередь. Остальное - когда работа готова. Только безналичный расчёт.</p>
-        <div class="todo" data-todo="УТОЧНИТЬ: реквизиты и способ безналичной оплаты (карта, ЕРИП, счёт)"><b>Уточнить</b> способ безналичной оплаты: карта, ЕРИП или счёт. Пока пишем только «безналичный расчёт».</div>
+        <p>50% предоплата, чтобы работа встала в очередь. Остальное - когда работа готова. Только безналичный расчёт: перевод на счёт ИП в БПС-Сбербанке или по номеру телефона.</p>
+        <div class="pay">
+          <div><span>Получатель</span><b>ИП · УНП КВ2724529</b></div>
+          <div><span>Счёт (IBAN)</span><b class="mono">BY32BPSB3014R000000000412374</b></div>
+          <div><span>Банк</span><b>БПС-Сбербанк, договор № 20677803</b></div>
+          <div><span>По номеру телефона</span><b>+375 29 525-14-53</b></div>
+        </div>
+        <p>После оплаты пришлю подтверждение и дату сдачи. Если нужен счёт на организацию - скажите, подготовлю.</p>
       </details>
       <details>
         <summary>А если преподаватель попросит переделать?</summary>
-        <p>Правки бесплатные. Присылаете замечания - разбираем и исправляем. Это нормальная часть работы, а не повод просить доплату.</p>
-      </details>
-      <details>
-        <summary>Вы гарантируете уникальность?</summary>
-        <p>Работы проходят проверку: обычно текст выше 60%, даже если вуз не задавал процент. Если у вас есть конкретное требование по системе проверки - скажите заранее.</p>
-        <div class="todo" data-todo="УТОЧНИТЬ: обещать ли 100% прохождение проверки на уникальность"><b>Уточнить</b> формулировку про 100% гарантию - подтвердить у клиента.</div>
+        <p>Переделываем. Присылаете замечания - разбираем и исправляем. Это нормальная часть работы, а не повод просить доплату.</p>
       </details>
       <details>
         <summary>По каким предметам берёте работы?</summary>
@@ -509,10 +519,10 @@
       <div class="contact"><div class="k">Telegram</div><a class="v" href="https://t.me/retter_by" target="_blank" rel="noopener">@retter_by</a><div class="sub">Самый быстрый способ</div></div>
       <div class="contact"><div class="k">Телефон</div><a class="v" href="tel:+375295420083">+375 29 542-00-83</a><div class="sub">Viber и WhatsApp на номере</div></div>
       <div class="contact"><div class="k">Мессенджеры</div><a class="v" href="https://wa.me/375295420083" target="_blank" rel="noopener">WhatsApp</a><div class="sub"><a href="viber://chat?number=%2B375295420083">Viber</a></div></div>
-      <div class="contact"><div class="k">На связи</div><div class="v">Уточняется</div><div class="sub">Часы ответа - в работе</div></div>
+      <div class="contact"><div class="k">На связи</div><div class="v">Пн-Пт 10:00-18:00</div><div class="sub">Сб и вс - выходной: пишите в мессенджеры</div></div>
     </div>
 
-    <div class="todo" data-todo="УТОЧНИТЬ: часы ответа (например 9:00-23:00)"><b>Уточнить</b> часы ответа и вставить в карточку "На связи".</div>
+    <div class="todo" data-todo="УТОЧНИТЬ: e-mail для выходных дней и копий заявок"><b>Уточнить</b> e-mail: клиент упомянул переписку по почте в выходные, адреса пока нет.</div>
   </div>
 </section>
 
@@ -521,8 +531,14 @@
     <div class="logo-mini"><img src="img/logo-dark.png" alt=""><span>© <span id="year"></span> RETTER_BY · Минск, Беларусь</span></div>
     <div>Демо-страница · <a href="https://kisomi-dev.github.io/kisomi-demo/" target="_blank" rel="noopener">сделано Kisomi</a></div>
   </div>
-  <div class="wrap" style="margin-top:14px">
-    <div class="todo" data-todo="УТОЧНИТЬ: реквизиты ИП / УНП для подвала (если есть ИП)"><b>Уточнить</b> реквизиты: ИП, УНП. Если ИП нет - оставляем только контакты, слово «ИП» не используем.</div>
+  <div class="wrap foot-req">
+    <span><b>Исполнитель:</b> ИП, УНП КВ2724529</span>
+    <span><b>Город:</b> Минск, Беларусь</span>
+    <span><b>Расчётный счёт:</b> BY32BPSB3014R000000000412374</span>
+    <span><b>Банк:</b> БПС-Сбербанк</span>
+  </div>
+  <div class="wrap" style="margin-top:12px">
+    <div class="todo" data-todo="УТОЧНИТЬ: ФИО ИП для реквизитов (по закону указывается вместе с УНП)"><b>Уточнить</b> ФИО ИП: реквизиты должны быть полными - ФИО плюс УНП. Остальное уже стоит.</div>
   </div>
 </footer>
 
@@ -724,13 +740,18 @@
 
 <!--
   ЗАГЛУШКИ (уточнить до публикации):
-  1. Часы ответа - карточка "На связи" + data-todo.
-  2. Если работу не приняли - блок "03" (панель).
-  3. Способ безналичной оплаты - FAQ "Как происходит оплата".
-  4. Гарантия 100% уникальности - панель и FAQ.
-  5. Реквизиты ИП / УНП - подвал.
-  6. Домен - пока живёт на kisomi-dev.github.io.
-  7. Форма: API пустой -> демо-режим, ждём токен бота (bot/worker.js).
+  1. ФИО ИП - подвал, рядом с УНП (по закону нужны вместе).
+  2. E-mail - раздел заявки, для выходных и копий заявок.
+  3. Какой логотип основной - сейчас RETTER EDUCATION (logo-2).
+  4. Домен - пока живёт на kisomi-dev.github.io, клиент делегировал выбор.
+  5. Форма: API пустой -> демо-режим, ждём токен бота (bot/worker.js).
+
+  ЗАКРЫТО 17.11 по файлу "для Егора 2.docx":
+  - часы ответа: Пн-Пт 10:00-18:00, сб и вс - выходной;
+  - если работу не приняли: переделываем;
+  - безнал: счёт ИП в БПС-Сбербанке, IBAN, номер телефона;
+  - УНП КВ2724529;
+  - блок про уникальность убран везде (панель и FAQ).
 -->
 </body>
 </html>
