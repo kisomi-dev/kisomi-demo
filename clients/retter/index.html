@@ -83,7 +83,8 @@
   @media (max-width:920px){.hero-grid{grid-template-columns:1fr}}
   .hero h1{margin:16px 0 18px}
   .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
-  .hero-facts{display:flex;gap:26px;margin-top:32px;flex-wrap:wrap}
+  @media (max-width:520px){.hero-actions{gap:10px}.hero-actions .btn{flex:1 1 100%;justify-content:center}}
+  .hero-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 26px;margin-top:30px;max-width:470px}
   .fact strong{display:block;font-size:22px;font-weight:800;color:var(--teal-dark);letter-spacing:-.02em}
   .fact span{font-size:12.5px;color:var(--muted)}
 
@@ -224,6 +225,9 @@
   .foot .logo-mini{display:flex;align-items:center;gap:8px}
   .foot .logo-mini img{width:26px;height:26px;object-fit:contain;opacity:.85}
 
+  .foot-links{display:flex;gap:8px 20px;flex-wrap:wrap;margin-top:14px;font-size:12px}
+  .foot-links a{text-decoration:underline;text-underline-offset:2px}
+
   .fab{position:fixed;right:16px;bottom:16px;z-index:60;padding:14px 22px;background:var(--teal);color:#fff;font-weight:800;font-size:14px;border-radius:999px;box-shadow:0 14px 30px -10px rgba(10,123,139,.7);display:none}
   @media (max-width:900px){.fab{display:block}}
 </style>
@@ -250,8 +254,8 @@
   <div class="wrap hero-grid">
     <div>
       <p class="eyebrow">Минск · работаю по всей Беларуси</p>
-      <h1>Работа, которую <em>примут</em> с первого раза</h1>
-      <p class="lead">Рефераты, курсовые, дипломы, отчёты, контрольные и презентации. Больше 10 лет в теме: знаю, что требует преподаватель и за что снижают. Сроки говорю реальные - и держу их.</p>
+      <h1>Работу доведём <em>до сдачи</em></h1>
+      <p class="lead">Рефераты, курсовые, дипломы, отчёты, контрольные и презентации. Больше 10 лет в теме: знаю, что требует преподаватель и за что снижают. С первого раза принимают не всегда - если вернут замечания, доработаем, пока работу не примут.</p>
       <div class="hero-actions">
         <a href="#order" class="btn btn-teal">Оставить заявку</a>
         <a href="#prices" class="btn btn-line">Смотреть цены</a>
@@ -512,7 +516,7 @@
       </div>
       <div class="field"><label for="subject">Предмет и тема</label><input id="subject" name="subject" type="text" placeholder="Например: экономика, налоговая политика государства"></div>
       <div class="field"><label for="comment">Детали (необязательно)</label><textarea id="comment" name="comment" placeholder="Объём, требования вуза, что уже есть"></textarea></div>
-      <label class="consent"><input type="checkbox" id="consent" name="consent" required><span>Согласен на обработку персональных данных. Пишу только по заявке, без рассылок.</span></label>
+      <label class="consent"><input type="checkbox" id="consent" name="consent" required><span>Согласен на <a href="privacy.html" target="_blank" rel="noopener">обработку персональных данных</a>. Пишу только по заявке, без рассылок.</span></label>
       <button type="submit" class="btn btn-teal btn-block" id="submitBtn">Отправить заявку</button>
       <p class="calc-note">Отвечаю с ценой и сроком. Если удобнее - <a href="https://t.me/retter_by" target="_blank" rel="noopener" style="color:var(--teal-dark);text-decoration:underline">напишите в Telegram</a>.</p>
       <div class="form-msg" id="formMsg" role="status" aria-live="polite"></div>
@@ -534,6 +538,10 @@
   <div class="wrap foot">
     <div class="logo-mini"><img src="img/logo-dark.png" alt=""><span>© <span id="year"></span> RETTER_BY · Минск, Беларусь</span></div>
     <div>Демо-страница · <a href="https://kisomi-dev.github.io/kisomi-demo/" target="_blank" rel="noopener">сделано Kisomi</a></div>
+  </div>
+  <div class="wrap foot-links">
+    <a href="privacy.html">Политика обработки персональных данных</a>
+    <a href="offer.html">Публичная оферта</a>
   </div>
   <div class="wrap foot-req">
     <span><b>Исполнитель:</b> ИП, УНП КВ2724529</span>
@@ -744,18 +752,21 @@
 
 <!--
   ЗАГЛУШКИ (уточнить до публикации):
-  1. ФИО ИП - подвал, рядом с УНП (по закону нужны вместе).
-  2. E-mail - раздел заявки, для выходных и копий заявок.
-  3. Какой логотип основной - сейчас RETTER EDUCATION (logo-2).
-  4. Домен - пока живёт на kisomi-dev.github.io, клиент делегировал выбор.
-  5. Форма: API пустой -> демо-режим, ждём токен бота (bot/worker.js).
+  1. ФИО ИП - подвал, оферта, политика (рядом с УНП).
+  2. E-mail - раздел заявки, а также обращения по персональным данным и юридически значимые сообщения.
+  3. Адрес ИП для корреспонденции - политика, п. 1.
+  4. Какой логотип основной - сейчас RETTER EDUCATION (logo-2).
+  5. Домен - пока живёт на kisomi-dev.github.io, клиент делегировал выбор.
+  6. Форма: API пустой -> демо-режим, ждём токен бота (bot/worker.js).
 
   ЗАКРЫТО 17.11 по файлу "для Егора 2.docx":
   - часы ответа: Пн-Пт 10:00-18:00, сб и вс - выходной;
   - если работу не приняли: переделываем;
   - безнал: счёт ИП в БПС-Сбербанке, IBAN, номер телефона;
   - УНП КВ2724529;
-  - блок про уникальность убран везде (панель и FAQ).
+  - блок про уникальность убран везде (панель и FAQ);
+  - обещание "примут с первого раза" снято (H1: "Работу доведём до сдачи");
+  - добавлены страницы privacy.html (политика ПД) и offer.html (оферта).
 -->
 </body>
 </html>
