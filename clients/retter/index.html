@@ -769,12 +769,25 @@
 
   function orderText(d) {
     return 'Заявка RETTER_BY\n'
-      + 'Работа: ' + (d.workType || '-') + '\n'
+      + 'Работа: ' + (d.type || '-') + '\n'
       + 'Срок: ' + (d.deadline || 'не указан') + '\n'
       + 'Предмет: ' + (d.subject || '-') + '\n'
       + 'Имя: ' + (d.name || '-') + '\n'
       + 'Контакт: ' + (d.contact || '-') + '\n'
       + 'Детали: ' + (d.comment || '-');
+  }
+
+  var KEY_BY_LABEL = {
+    'Реферат': 'referat', 'Курсовая': 'kursovaya', 'Диплом': 'diplom',
+    'Отчёт по практике': 'otchet', 'Контрольная': 'kontrolnaya', 'Презентация': 'prezentaciya'
+  };
+
+  function calcPrice(typeLabel, termLabel) {
+    var key = KEY_BY_LABEL[typeLabel];
+    if (!key || !DATA[key]) return '';
+    var conf = DATA[key];
+    var term = conf.terms.filter(function (t) { return t.label === termLabel; })[0] || conf.terms[0];
+    return conf.base * term.mult;
   }
 
   form.addEventListener('submit', async function (e) {
@@ -783,7 +796,8 @@
     var data = {
       name: el.name.value.trim(),
       contact: el.contact.value.trim(),
-      workType: el.workType.value,
+      type: el.workType.value,
+      price: calcPrice(el.workType.value, el.deadline.value),
       deadline: el.deadline.value,
       subject: el.subject.value.trim(),
       comment: el.comment.value.trim()
@@ -791,7 +805,7 @@
 
     if (data.name.length < 2) { show('Напишите имя - хотя бы как к вам обращаться.', 'err'); el.name.focus(); return; }
     if (data.contact.replace(/\s/g, '').length < 5) { show('Оставьте телефон или ник в Telegram, чтобы мы могли ответить.', 'err'); el.contact.focus(); return; }
-    if (!data.workType) { show('Выберите тип работы.', 'err'); el.workType.focus(); return; }
+    if (!data.type) { show('Выберите тип работы.', 'err'); el.workType.focus(); return; }
     if (!document.getElementById('consent').checked) { show('Нужно согласие на обработку данных - без него не сможем ответить.', 'err'); return; }
 
     submitBtn.disabled = true;
@@ -832,11 +846,15 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
+      if (!res.ok) {
+        var why = '';
+        try { var j = await res.json(); why = j.detail || j.error || ''; } catch (e) {}
+        throw new Error('HTTP ' + res.status + (why ? ': ' + why : ''));
+      }
       show('Заявка ушла. Ответим с ценой и сроком в течение дня.', 'ok');
       form.reset();
     } catch (err) {
-      fallback('Не получилось отправить автоматически. Скопируйте заявку и пришлите в Telegram - так точно дойдёт.');
+      fallback('Не получилось отправить автоматически (' + err.message + '). Скопируйте заявку и пришлите в Telegram - так точно дойдёт.');
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = 'Отправить заявку';
