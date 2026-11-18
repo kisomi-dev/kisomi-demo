@@ -195,6 +195,7 @@
   .reviews{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
   @media (max-width:800px){.reviews{grid-template-columns:1fr}}
   .review{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px;position:relative}
+  .review .who{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:6px}
   .review p{font-size:14.5px;color:var(--soft)}
   .review p::before{content:"“";font-family:var(--serif);font-size:34px;color:#c7e2e8;line-height:0;vertical-align:-8px;margin-right:2px}
   .review footer{margin-top:12px;font-size:12.5px;color:var(--muted)}
@@ -471,7 +472,7 @@
       <p class="lead">Это фразы из переписки, без редактуры. Скрины - ниже, чтобы было видно, что отзывы настоящие.</p>
     </div>
 
-    <div class="reviews">
+    <div class="reviews" id="reviewList">
       <article class="review"><p>Мою курсовую приняли. Спасибо!</p><footer>Курсовая · май</footer></article>
       <article class="review"><p>Спасибо большое за работу!</p><footer>Реферат · из переписки</footer></article>
       <article class="review"><p>Всё приняли. И с курсовой, и с отчётом.</p><footer>Курсовая и отчёт · июнь</footer></article>
@@ -485,7 +486,7 @@
     </div>
     <p class="proof-note">Скрины из WhatsApp, имена и аватары скрыты. Можем прислать больше по запросу.</p>
 
-    <!-- Новые отзывы с формы ниже добавляются сюда, в блок .reviews, после проверки -->
+    <!-- Отзывы подгружаются из reviews.json. Список выше - запасной вариант, если файл не загрузился. -->
 
     <div class="review-box">
       <div>
@@ -861,7 +862,48 @@
     }
   });
 
-  // ---------- Отзывы ----------
+  // ---------- Отзывы: подгрузка из reviews.json ----------
+  // Если файл не загрузился, остаются статичные отзывы из HTML - блок не пустой.
+  (function loadReviews() {
+    var box = document.getElementById('reviewList');
+    if (!box || !window.fetch) return;
+
+    function card(item) {
+      var text = String(item.text || '').trim();
+      if (!text) return null;
+      var el = document.createElement('article');
+      el.className = 'review';
+      if (item.name) {
+        var who = document.createElement('div');
+        who.className = 'who';
+        who.textContent = item.name;
+        el.appendChild(who);
+      }
+      var p = document.createElement('p');
+      p.textContent = text;
+      el.appendChild(p);
+      if (item.footer) {
+        var f = document.createElement('footer');
+        f.textContent = item.footer;
+        el.appendChild(f);
+      }
+      return el;
+    }
+
+    fetch('reviews.json', { cache: 'no-cache' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        var items = (data && data.items) || [];
+        if (!items.length) return;
+        var made = items.map(card).filter(Boolean);
+        if (!made.length) return;
+        box.innerHTML = '';
+        made.forEach(function (el) { box.appendChild(el); });
+      })
+      .catch(function () { /* остаются статичные отзывы */ });
+  })();
+
+  // ---------- Отзывы: отправка формы ----------
   var reviewForm = document.getElementById('reviewForm');
   var reviewMsg = document.getElementById('reviewMsg');
   var reviewBtn = document.getElementById('reviewBtn');
