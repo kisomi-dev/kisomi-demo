@@ -133,27 +133,28 @@
   .urgent-note{margin-top:16px;background:var(--teal-soft);border:1px solid #cfe9ee;border-radius:14px;padding:14px 18px;font-size:13.5px;color:#22545f}
 
   .promo{position:relative;overflow:hidden;margin-top:16px;padding:28px 30px;border-radius:22px;color:#fff;
-    display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:center;
     background:linear-gradient(118deg,#12384a 0%,#0d6273 52%,#0e9aae 100%);
     box-shadow:0 24px 50px -34px rgba(18,56,74,.75)}
   .promo::before{content:"";position:absolute;top:-110px;right:-60px;width:300px;height:300px;border-radius:50%;
     background:radial-gradient(circle,rgba(255,255,255,.18),rgba(255,255,255,0) 68%);pointer-events:none}
-  .promo::after{content:"";position:absolute;right:-50px;bottom:-180px;width:300px;height:300px;border-radius:50%;
-    border:1px dashed rgba(255,255,255,.22);pointer-events:none}
+  .promo::after{content:"";position:absolute;right:-70px;bottom:-215px;width:330px;height:330px;border-radius:50%;
+    border:1px dashed rgba(255,255,255,.2);pointer-events:none}
   .promo-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;
     background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);
     font-size:10.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#eafcfa}
   .promo-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:#a9f2e8;box-shadow:0 0 0 3px rgba(169,242,232,.25)}
-  .promo h3{margin:14px 0 10px;font-size:clamp(20px,2.3vw,26px);line-height:1.16;color:#fff}
+  .promo h3{margin:14px 0 0;font-size:clamp(20px,2.3vw,26px);line-height:1.16;color:#fff;text-wrap:balance}
   .promo h3 em{font-style:normal;color:#b9f2ea}
-  .promo p{font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.84);max-width:560px}
+  .promo-bottom{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:start;margin-top:14px}
+  .promo p{font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.84);max-width:600px}
   .promo-note{margin-top:12px;font-size:11.5px;color:rgba(255,255,255,.62)}
-  .promo-gift{position:relative;z-index:1;display:flex;flex-direction:column;gap:8px;min-width:236px}
+  .promo-gift{display:flex;flex-direction:column;gap:8px;min-width:236px}
   .promo-gift span{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:11px 16px;border-radius:14px;
     background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);font-size:12.5px;font-weight:600;white-space:nowrap}
   .promo-gift b{font-weight:800;color:#b9f2ea}
   @media (max-width:820px){
-    .promo{grid-template-columns:1fr;padding:24px 22px;gap:20px}
+    .promo{padding:24px 22px}
+    .promo-bottom{grid-template-columns:1fr;gap:18px}
     .promo-gift{min-width:0}
     .promo::after{display:none}
   }
@@ -398,15 +399,17 @@
     <div class="urgent-note"><b>Срочно - не проблема, но дороже.</b> Если работа нужна за 1-2 дня, стоимость удваивается: это ночная работа вместо очереди. Диплом быстрее двух недель не берём - иначе получится работа, которую не примут.</div>
 
     <aside class="promo">
-      <div>
-        <span class="promo-badge">Акция</span>
-        <h3>Оплатите диплом сразу - <em>речь и презентация в подарок</em></h3>
-        <p>Вносите 100% вместо 50% на старте - и мы бесплатно готовим речь для выступления и презентацию к защите. Будет готово и то, что говорить, и то, что показать комиссии.</p>
-        <p class="promo-note">Условие: диплом целиком, оплата 100% до начала работы.</p>
-      </div>
-      <div class="promo-gift">
-        <span>Речь для выступления <b>в подарок</b></span>
-        <span>Презентация к защите <b>в подарок</b></span>
+      <span class="promo-badge">Акция</span>
+      <h3>Оплатите диплом сразу&nbsp;- <em>речь и презентацию получаете в подарок</em></h3>
+      <div class="promo-bottom">
+        <div>
+          <p>Вносите 100% вместо 50% на старте - и мы бесплатно готовим речь для выступления и презентацию к защите. Будет готово и то, что говорить, и то, что показать комиссии.</p>
+          <p class="promo-note">Условие: диплом целиком, оплата 100% до начала работы.</p>
+        </div>
+        <div class="promo-gift">
+          <span>Речь для выступления <b>в подарок</b></span>
+          <span>Презентация к защите <b>в подарок</b></span>
+        </div>
       </div>
     </aside>
   </div>
