@@ -847,15 +847,11 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-      if (!res.ok) {
-        var why = '';
-        try { var j = await res.json(); why = j.detail || j.error || ''; } catch (e) {}
-        throw new Error('HTTP ' + res.status + (why ? ': ' + why : ''));
-      }
+      if (!res.ok) throw new Error('HTTP ' + res.status);
       show('Заявка ушла. Ответим с ценой и сроком в течение дня.', 'ok');
       form.reset();
     } catch (err) {
-      fallback('Не получилось отправить автоматически (' + err.message + '). Скопируйте заявку и пришлите в Telegram - так точно дойдёт.');
+      fallback('Не получилось отправить автоматически. Скопируйте заявку и пришлите в Telegram - так точно дойдёт.');
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = 'Отправить заявку';
