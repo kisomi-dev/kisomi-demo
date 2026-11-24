@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Курсовые, дипломы, рефераты на заказ - RETTER_BY | Минск, Беларусь</title>
-<meta name="description" content="Рефераты от 40 BYN, курсовые от 100 BYN, дипломы от 250 BYN. 10+ лет опыта, реальные сроки, бесплатные правки. Оплата 50% после согласования. Минск, работаем по всей Беларуси.">
+<meta name="description" content="Рефераты от 40 BYN, курсовые от 100 BYN, дипломы от 250 BYN. 10+ лет опыта, реальные сроки, бесплатные правки. 50% предоплата, остальное по готовности. Минск, работаем по всей Беларуси.">
 <meta name="theme-color" content="#0e9aae">
 <link rel="icon" href="img/logo.png">
 <meta property="og:title" content="RETTER_BY - курсовые, дипломы, рефераты">
-<meta property="og:description" content="Считайте цену за 10 секунд: тип работы и срок. 10+ лет опыта, бесплатные правки, оплата 50% по готовности.">
+<meta property="og:description" content="Считайте цену за 10 секунд: тип работы и срок. 10+ лет опыта, бесплатные правки, 50% предоплата, остальное по готовности.">
 <meta property="og:type" content="website">
 <!--
   RETTER_BY - страница услуг по учебным работам.
-  Все заглушки помечены data-todo и классом .todo. Список заглушек - в конце файла.
-  Форма: при заполненной API шлёт заявку через Worker (bot/worker.js), иначе демо-режим.
+  Одна статичная страница: стили и скрипты внутри файла.
+  Заявки и отзывы отправляются на Worker, адрес в переменной API ниже.
 -->
 <style>
   :root{
@@ -177,9 +177,6 @@
   .panel h3{font-size:16px;margin-bottom:8px}
   .panel p{font-size:13.5px;color:var(--soft)}
   .panel + .panel{margin-top:12px}
-
-  .todo{background:var(--warn-bg);border:1px dashed var(--warn-line);border-radius:12px;padding:12px 14px;font-size:12.5px;color:#7a5a05;margin-top:12px;line-height:1.5}
-  .todo b{display:inline-block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:#f5d78a;color:#6b4e04;border-radius:4px;padding:2px 6px;margin-right:6px;vertical-align:1px}
 
   .pay{display:grid;gap:7px;margin:14px 0 16px;font-size:13px;max-width:100%}
   .pay div{display:flex;justify-content:space-between;gap:14px;border-bottom:1px dashed var(--line);padding-bottom:7px}
@@ -665,7 +662,7 @@
     if (e.persisted && !location.hash) window.scrollTo(0, 0);
   });
 
-  // Куда уходят заявки. Пусто = демо-режим (заявка не отправляется, предлагаем Telegram).
+  // Адрес приёма заявок и отзывов (Cloudflare Worker).
   var API = 'https://retter-orders.kisomi.workers.dev';
 
   document.getElementById('year').textContent = new Date().getFullYear();
@@ -836,11 +833,6 @@
     }
 
     try {
-      if (!API) {
-        fallback('Это демо-версия: заявка собрана, но ещё не отправляется. Скопируйте её и пришлите в Telegram - ответим с ценой и сроком.');
-        form.reset();
-        return;
-      }
       var res = await fetch(API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -956,11 +948,6 @@
     }
 
     try {
-      if (!API) {
-        fallback('Это демо-версия: отзыв собран, но ещё не отправляется. Скопируйте его и пришлите в Telegram - опубликуем после проверки.');
-        reviewForm.reset();
-        return;
-      }
       var res = await fetch(API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -978,26 +965,5 @@
   });
 })();
 </script>
-
-<!--
-  ЗАГЛУШКИ (уточнить до публикации):
-  1. Адрес для корреспонденции - только политика (privacy.html, п. 1).
-  2. Форма и отзывы: API пустой -> демо-режим, ждём токен бота (bot/worker.js).
-
-  ЗАКРЫТО 17.11:
-  - ФИО: Удовенко Татьяна Михайловна (подвал, оплата, оферта, политика);
-  - e-mail: retterstudy@gmail.com (контакты, подвал, политика, оферта);
-  - часы ответа: Пн-Пт 10:00-18:00, сб и вс - выходной;
-  - если работу не приняли: дорабатываем бесплатно в рамках первоначальных требований;
-  - безнал: счёт в Сбер Банке, IBAN, номер телефона;
-  - УНП КВ2724529 (клиент - физлицо, не ИП);
-  - блок про уникальность убран везде (панель и FAQ);
-  - H1: "Учись в кайф, а сложные работы оставь нам" (было "Работу доведём до сдачи");
-  - добавлены страницы privacy.html (политика ПД) и offer.html (оферта);
-  - бегущая строка без разрыва (margin-right вместо gap, сдвиг -50%);
-  - блок "Оставить отзыв" в разделе отзывов, отзыв уходит в Telegram, публикуется вручную;
-  - весь текст переведён с "я" на "мы" (исполнитель - команда);
-  - место нахождения: деревня Копище, Минский район (подвал, оферта, политика).
--->
 </body>
 </html>
