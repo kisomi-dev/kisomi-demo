@@ -247,6 +247,7 @@
   .consent{display:flex;gap:9px;align-items:flex-start;font-size:11.5px;color:var(--muted);line-height:1.45}
   .consent input{margin-top:2px;width:16px;height:16px;flex:0 0 16px;accent-color:var(--teal)}
   .consent a{text-decoration:underline}
+  .hp-field{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;overflow:hidden}
   .form-msg{display:none;border-radius:12px;padding:14px 16px;font-size:14px;line-height:1.5}
   .form-msg.ok{display:block;background:#eef8f2;border:1px solid #c6e6d2;color:#1f6b46}
   .form-msg.err{display:block;background:#fdf0f0;border:1px solid #efcccc;color:#a33}
@@ -580,6 +581,7 @@
       </div>
 
     <form id="orderForm" novalidate>
+      <input type="text" name="hp" id="hp" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="row2">
         <div class="field"><label for="name">Имя</label><input id="name" name="name" type="text" placeholder="Как к вам обращаться" autocomplete="name" required></div>
         <div class="field"><label for="contact">Телефон или Telegram</label><input id="contact" name="contact" type="text" placeholder="+375 ... или @ник" required></div>
@@ -797,7 +799,8 @@
       price: calcPrice(el.workType.value, el.deadline.value),
       deadline: el.deadline.value,
       subject: el.subject.value.trim(),
-      comment: el.comment.value.trim()
+      comment: el.comment.value.trim(),
+      hp: el.hp ? el.hp.value : ''
     };
 
     if (data.name.length < 2) { show('Напишите имя - хотя бы как к вам обращаться.', 'err'); el.name.focus(); return; }
